@@ -42,6 +42,21 @@ namespace ZModem_Protocol
             }
 
             /// <summary>
+            /// Decode a potential ZDLE encoded byte
+            /// </summary>
+            /// <param name="ms">MemoryStream</param>
+            /// <returns>Byte ZDLE decoded</returns>
+            private Byte DecodeByte(MemoryStream ms)
+            {
+                Byte r = (byte)ms.ReadByte();
+                if (r == Convert.ToByte(ControlBytes.ZDLE))
+                {
+                    r = Convert.ToByte(ms.ReadByte() ^ 64);
+                }
+                return r;
+            }
+
+            /// <summary>
             /// Decrypt header value and provide it as an int
             /// </summary>
             /// <returns> arguments value (int)</returns>
@@ -165,6 +180,115 @@ namespace ZModem_Protocol
                                 val = ((char)DecodeByte(data, ref index)).ToString();
                                 index++;
                                 val += ((char)DecodeByte(data, ref index)).ToString();
+                                int c2 = Convert.ToInt32(val, 16);
+                                crc2 = Convert.ToByte(c2);
+
+                                Byte[] b = new Byte[5];
+                                b[0] = Convert.ToByte((int)type);
+                                b[1] = arg1;
+                                b[2] = arg2;
+                                b[3] = arg3;
+                                b[4] = arg4;
+
+                                Crc16Ccitt crccomp = new Crc16Ccitt(0);
+                                Byte[] crcAttempted = crccomp.ComputeChecksumBytes(b);
+                                if ((crc1 != crcAttempted[1]) || (crc2 != crcAttempted[0]))
+                                {
+                                    valid = false;
+                                    return; //erreur crc
+                                }
+                                else
+                                {
+                                    valid = true;
+                                }
+                                endofHeader = index;
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            public Header(MemoryStream ms, int startIndex)
+            {
+                if (startIndex < 0)
+                    return;
+
+                int index = startIndex;
+                ms.Seek(index, SeekOrigin.Begin);
+                if (ms.ReadByte() == Convert.ToByte(ControlBytes.ZPAD))
+                {
+                    int typeFrame = ms.ReadByte();
+                    if (typeFrame == Convert.ToByte(ControlBytes.ZDLE))
+                    {
+                        if (ms.ReadByte() == Convert.ToByte(ControlBytes.ZBIN))
+                        {
+                            type = (HeaderType)Enum.Parse(typeof(HeaderType), ((int)DecodeByte(ms)).ToString());
+                            arg1 = DecodeByte(ms);
+                            arg2 = DecodeByte(ms);
+                            arg3 = DecodeByte(ms);
+                            arg4 = DecodeByte(ms);
+                            crc1 = DecodeByte(ms);
+                            crc2 = DecodeByte(ms);
+
+                            Byte[] b = new Byte[5];
+                            b[0] = Convert.ToByte((int)type);
+                            b[1] = arg1;
+                            b[2] = arg2;
+                            b[3] = arg3;
+                            b[4] = arg4;
+
+                            Crc16Ccitt crccomp = new Crc16Ccitt(0);
+                            Byte[] crcAttempted = crccomp.ComputeChecksumBytes(b);
+                            if ((crc1 != crcAttempted[1]) || (crc2 != crcAttempted[0]))
+                            {
+                                valid = false;
+                                return; //erreur crc
+                            }
+                            else
+                            {
+                                valid = true;
+                            }
+                            endofHeader = index;
+                        }
+                    }
+                    else if (typeFrame == Convert.ToByte(ControlBytes.ZPAD)) //Header Hex
+                    {
+                        if (ms.ReadByte() == Convert.ToByte(ControlBytes.ZDLE))
+                        {
+                            if (ms.ReadByte() == Convert.ToByte(ControlBytes.ZHEX))
+                            {
+                                string val = ((char)DecodeByte(ms)).ToString();
+                                val += ((char)DecodeByte(ms)).ToString();
+                                type = (HeaderType)Enum.Parse(typeof(HeaderType), val);
+
+                                val = ((char)DecodeByte(ms)).ToString();
+                                val += ((char)DecodeByte(ms)).ToString();
+                                int a1 = Convert.ToInt32(val, 16);
+                                arg1 = Convert.ToByte(a1);
+
+                                val = ((char)DecodeByte(ms)).ToString();
+                                val += ((char)DecodeByte(ms)).ToString();
+                                int a2 = Convert.ToInt32(val, 16);
+                                arg2 = Convert.ToByte(a2);
+
+                                val = ((char)DecodeByte(ms)).ToString();
+                                val += ((char)DecodeByte(ms)).ToString();
+                                int a3 = Convert.ToInt32(val, 16);
+                                arg3 = Convert.ToByte(a3);
+
+                                val = ((char)DecodeByte(ms)).ToString();
+                                val += ((char)DecodeByte(ms)).ToString();
+                                int a4 = Convert.ToInt32(val, 16);
+                                arg4 = Convert.ToByte(a4);
+
+                                val = ((char)DecodeByte(ms)).ToString();
+                                val += ((char)DecodeByte(ms)).ToString();
+                                int c1 = Convert.ToInt32(val, 16);
+                                crc1 = Convert.ToByte(c1);
+
+                                val = ((char)DecodeByte(ms)).ToString();
+                                val += ((char)DecodeByte(ms)).ToString();
                                 int c2 = Convert.ToInt32(val, 16);
                                 crc2 = Convert.ToByte(c2);
 

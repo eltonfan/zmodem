@@ -2,16 +2,19 @@
 
 namespace ZModem_Protocol
 {
-    /// <summary>
-    /// Initial value for Crc16Ccitt computation
-    /// </summary>
-    public enum InitialCrcValue { Zeros, NonZero1 = 0xffff, NonZero2 = 0x1D0F }
 
     /// <summary>
     /// Class used for ZModem crc checks
     /// </summary>
     public class Crc16Ccitt
     {
+
+        /// <summary>
+        /// Initial value for Crc16Ccitt computation
+        /// </summary>
+        public enum InitialCrcValue { Zeros, NonZero1 = 0xffff, NonZero2 = 0x1D0F }
+
+
         const ushort poly = 4129;
         ushort[] table = new ushort[256];
         ushort initialValue = 0;
@@ -105,5 +108,60 @@ namespace ZModem_Protocol
     //    }
     //}
 
+    public partial class ZModem
+    {
+        private static int ComputeHeaderCRC(int type, int arg0, int arg1, int arg2, int arg3)
+        {
+            //Calcul du crc
+            Byte[] b = new Byte[5];
+            b[0] = Convert.ToByte((int)type);
+            b[1] = Convert.ToByte(arg0);
+            b[2] = Convert.ToByte(arg1);
+            b[3] = Convert.ToByte(arg2);
+            b[4] = Convert.ToByte(arg3);
+            int ret = calcrc(b, b.Length);
+
+            return ret;
+        }
+
+        private static bool ComputeHexHeaderCRC(ref string HexFrame)
+        {
+            if (HexFrame.Length != 14)
+                return false;
+            if (HexFrame[0] != Convert.ToChar(ControlBytes.ZPAD)) //Header Hex
+                return false;
+            if (HexFrame[1] != Convert.ToChar(ControlBytes.ZPAD)) //Header Hex
+                return false;
+            if (HexFrame[2] != Convert.ToChar(ControlBytes.ZDLE)) //Header Hex
+                return false;
+            if (HexFrame[3] != Convert.ToChar(ControlBytes.ZHEX)) //Header Hex
+                return false;
+
+            int crc = ComputeHeaderCRC(Convert.ToInt32(HexFrame.Substring(4, 2), 16), Convert.ToInt32(HexFrame.Substring(6, 2), 16),
+                Convert.ToInt32(HexFrame.Substring(8, 2), 16), Convert.ToInt32(HexFrame.Substring(10, 2), 16), Convert.ToInt32(HexFrame.Substring(12, 2), 16));
+
+            HexFrame += crc.ToString("x4");
+            return true;
+        }
+
+        private static int calcrc(Byte[] data, int count)
+        {
+            int crc = 0;
+            int d;
+            for (int i = 0; i < count; i++)
+            {
+                d = data[i];
+                crc = crc ^ (d << 8);
+                for (int j = 0; j < 8; j++)
+                {
+                    if ((crc & 0x8000) != 0)
+                        crc = (crc << 1) ^ 0x1021;
+                    else
+                        crc = (crc << 1);
+                }
+            }
+            return (crc & 0xFFFF);
+        }
+    }
 }
 

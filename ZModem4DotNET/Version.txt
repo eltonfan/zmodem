@@ -1,0 +1,12 @@
+﻿1.0.0.3	Rework of the entire workflow! 
+			Larger file transfert possible (I tested successfully 3Mb)
+			CRC recorvery is now working correctly
+			Events are working correctly
+			Timeout should be functionnal (to be tested more)
+
+1.0.0.2	Implementation of CRC error recorvery
+		Implementation of events to monitor the data transfert
+
+1.0.0.1 Adding XML files
+
+1.0.0.0	First release

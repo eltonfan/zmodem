@@ -7,14 +7,22 @@ using Microsoft.Win32.SafeHandles;
 namespace SerialPort_Fix
 {
     /// <summary>
-    /// This class is wonderfull, it solves the issue off the serial port on some computers! I can't remember where I got it, but if you are the author, feel free to ask me to add your name. 
+    /// <para>This class is wonderfull, it solves the SerialPort IOException on some computers!</para>
+    /// <para>http://zachsaw.blogspot.de/2010/07/serialport-ioexception-workaround-in-c.html</para>
     /// </summary>
     public class SerialPortFixer : IDisposable
     {
         public static void Execute(string portName)
         {
-            using (new SerialPortFixer(portName))
+            try
             {
+                using (new SerialPortFixer(portName))
+                {
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
             }
         }
         #region IDisposable Members
@@ -47,6 +55,8 @@ namespace SerialPort_Fix
             }
             SafeFileHandle hFile = CreateFile(@"\\.\" + portName, dwAccess, 0, IntPtr.Zero, 3, dwFlagsAndAttributes,
                                               IntPtr.Zero);
+
+
             if (hFile.IsInvalid)
             {
                 WinIoError();
