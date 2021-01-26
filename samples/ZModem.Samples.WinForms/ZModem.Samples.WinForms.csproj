@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ZModem4DotNET\ZModem4DotNET.csproj" />
+    <ProjectReference Include="..\..\src\ZModem\ZModem.csproj" />
   </ItemGroup>
   
 </Project>
