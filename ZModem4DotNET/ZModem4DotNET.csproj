@@ -1,80 +1,18 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{9906FA27-A9C7-49CD-B3D7-054ADDBDAA13}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ZModem4DotNET</RootNamespace>
-    <AssemblyName>ZModem4DotNET</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkSubset>
-    </TargetFrameworkSubset>
-    <SignAssembly>false</SignAssembly>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Description>ZModem Implementation for DotNET</Description>
+    <Copyright>Copyright © PH FRANCOIS 2012</Copyright>
+    <AssemblyVersion>1.0.0.3</AssemblyVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\ZModem4DotNET.XML</DocumentationFile>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data.DataSetExtensions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <Compile Remove="ZModem\ZModem const.cs" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="ZModem\BynaryDataSubPacketReceiver.cs" />
-    <Compile Include="ZModem\Events.cs" />
-    <Compile Include="ZModem\File Send.cs" />
-    <Compile Include="ZModem\FileTransfert.cs" />
-    <Compile Include="ZModem\HeaderReceiver.cs" />
-    <Compile Include="ZModem\SessionReceiver.cs" />
-    <Compile Include="ZModem\ZModem_BuildFrame.cs" />
-    <Compile Include="ZModem\CRC.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SerialPortBugFixer.cs" />
-    <Compile Include="ZModem\ZModem_const.cs" />
-    <Compile Include="ZModem\ZModem.cs" />
-    <Compile Include="ZModem\ZModem_FileInfo.cs" />
-    <Compile Include="ZModem\ZModem_Header.cs" />
+    <PackageReference Include="System.IO.Ports" Version="4.5.0" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="Version.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>

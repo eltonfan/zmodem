@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30711.63
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZModem4DotNET", "ZModem4DotNET\ZModem4DotNET.csproj", "{9906FA27-A9C7-49CD-B3D7-054ADDBDAA13}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZModem example", "ZModem example\ZModem example.csproj", "{8DF67440-E32F-4BA5-974E-C47EF43D8680}"
@@ -22,5 +24,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {175642F3-3E26-4264-94BD-EA8CD48E2E46}
 	EndGlobalSection
 EndGlobal
