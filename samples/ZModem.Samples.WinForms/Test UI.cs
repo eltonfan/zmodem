@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO.Ports;
 using System.IO;
+using ZModem_Protocol;
 
 namespace ZModem_example
 {
@@ -88,9 +89,9 @@ namespace ZModem_example
                 sp = new SerialPort((string)cmbCOMPort.SelectedItem, (int)cmbBaud.SelectedItem, (Parity)cmbParity.SelectedItem, (int)cmbDataBit.SelectedItem, (StopBits)cmbStopBit.SelectedItem);
                 sp.Open();
                 zmodem = new ZModem_Protocol.ZModem(sp);
-                zmodem.TransfertStateEvent += new ZModem_Protocol.ZModem.TransfertStateHandler(zmodem_TransfertStateEvent);
-                zmodem.FileInfoEvent += new ZModem_Protocol.ZModem.FileInfoHandler(zmodem_FileInfoEvent);
-                zmodem.BytesTransferedEvent += new ZModem_Protocol.ZModem.BytesTransferedHandler(zmodem_BytesTransferedEvent);
+                zmodem.TransfertStateEvent += zmodem_TransfertStateEvent;
+                zmodem.FileInfoEvent += zmodem_FileInfoEvent;
+                zmodem.BytesTransferedEvent += zmodem_BytesTransferedEvent;
 
                 Console.WriteLine("Serial port setuped and opened successfully!");
             }
@@ -118,9 +119,9 @@ namespace ZModem_example
             }
         }
 
-        void zmodem_BytesTransferedEvent(object sender, ZModem_Protocol.ZModem.BytesTransferedEventArgs e)
+        void zmodem_BytesTransferedEvent(object sender, BytesTransferedEventArgs e)
         {
-            Console.Write(e.size + "\r");
+            Console.Write(e.Size + "\r");
             //float f = (float)e.size * 100/ fileSize;
             ////backgroundWorker1.ReportProgress((int)f);
             //if (!progress.Visible)
@@ -130,9 +131,9 @@ namespace ZModem_example
             //progress.Refresh();
         }
 
-        void zmodem_FileInfoEvent(object sender, ZModem_Protocol.ZModem.FileInfoEventArgs e)
+        void zmodem_FileInfoEvent(object sender, FileInfoEventArgs e)
         {
-            Console.WriteLine(e.fileName + " " + e.size);
+            Console.WriteLine(e.FileName + " " + e.Size);
             //fileSize = e.size;
             //backgroundWorker1.ReportProgress(0);
             //progress.Minimum = 0;
@@ -142,9 +143,9 @@ namespace ZModem_example
             //progress.Refresh();
         }
 
-        void zmodem_TransfertStateEvent(object sender, ZModem_Protocol.ZModem.TransfertStateEventArgs e)
+        void zmodem_TransfertStateEvent(object sender, TransfertStateEventArgs e)
         {
-            Console.WriteLine(e.state);
+            Console.WriteLine(e.State);
             //backgroundWorker1.ReportProgress(-1, e.state);
             //this.tssLState.Text = e.state.ToString();
             //if (e.state == ZModem_Protocol.ZModem.TransfertState.Ended)
@@ -206,9 +207,9 @@ namespace ZModem_example
             if (e.UserState == null)
                 return;
 
-            ZModem_Protocol.ZModem.TransfertState state = (ZModem_Protocol.ZModem.TransfertState)e.UserState;
+            var state = (TransfertState)e.UserState;
             this.tssLState.Text = state.ToString();
-            if (state == ZModem_Protocol.ZModem.TransfertState.Ended)
+            if (state == TransfertState.Ended)
                 this.UseWaitCursor = false;
             else
                 this.UseWaitCursor = true;

@@ -34,7 +34,7 @@ namespace ZModem_Protocol
 
 
             byte[] b = null;
-            b = BuildZFILEFrame("text.txt", 10141);
+            b = BuildZFILEFrame(fileName, 10141);
             for (int i = 0; i < b.Length; i++)
                 Console.Write((char)b[i]);
             Console.WriteLine("");

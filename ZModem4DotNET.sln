@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZModem", "src\ZModem\ZModem
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZModem.Samples.WinForms", "samples\ZModem.Samples.WinForms\ZModem.Samples.WinForms.csproj", "{6F661EB7-ED4C-4D29-83B3-1EA857D29ADC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZModem.Samples.ConsoleApp", "samples\ZModem.Samples.ConsoleApp\ZModem.Samples.ConsoleApp.csproj", "{187AF7A7-B47A-4F9E-8DAE-58CDFD870F68}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,12 +25,17 @@ Global
 		{6F661EB7-ED4C-4D29-83B3-1EA857D29ADC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F661EB7-ED4C-4D29-83B3-1EA857D29ADC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F661EB7-ED4C-4D29-83B3-1EA857D29ADC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{187AF7A7-B47A-4F9E-8DAE-58CDFD870F68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{187AF7A7-B47A-4F9E-8DAE-58CDFD870F68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{187AF7A7-B47A-4F9E-8DAE-58CDFD870F68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{187AF7A7-B47A-4F9E-8DAE-58CDFD870F68}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{6F661EB7-ED4C-4D29-83B3-1EA857D29ADC} = {241BB281-6981-48A6-8331-BAFE75D046F2}
+		{187AF7A7-B47A-4F9E-8DAE-58CDFD870F68} = {241BB281-6981-48A6-8331-BAFE75D046F2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {175642F3-3E26-4264-94BD-EA8CD48E2E46}
